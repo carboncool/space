@@ -1,5 +1,6 @@
 $prog = $myinvocation.mycommand.name
 $url_cnnic = "http://ipwhois.cnnic.cn/ipstats/detail.php?obj=ipv4&country=CN"
+$url_dancefire = "http://www.dancefire.org/vpnroute.php"
 $curdir = (get-location).path
 $ipv4_html = join-path $curdir "cnnic_ipv4.html"
 $ipv4_data = join-path $curdir "cnnic_ipv4.data"
@@ -27,9 +28,7 @@ function cidr-to-mask($cidr) {
 function get-cn-data {
 	Write-Host "Downloading CN network data from CNNIC..."
 	$webclient = new-object System.Net.WebClient
-	$webclient.DownloadFile($url_cnnic, $ipv4_html)
-	
-	cat $ipv4_html | where { $_ -match "whois.pl?" } | % { $_ -replace "^.*searchtext=([.\d/]+).*$", '$1' } > $ipv4_data
+	$webclient.DownloadFile($url_dancefire, $ipv4_data)
 	Write-Host "Done."
 }
 

@@ -2,6 +2,7 @@
 LANG=C
 PROG=$0
 URL_CNNIC="http://ipwhois.cnnic.cn/ipstats/detail.php?obj=ipv4&country=CN"
+URL_DANCEFIRE="http://www.dancefire.org/vpnroute.php"
 IPV4_HTML=/tmp/cnnic_ipv4.html
 IPV4_DATA=~/cnnic_ipv4.data
 VPN_IF=`ip tuntap | cut -d ':' -f 1`
@@ -29,10 +30,7 @@ ROUTE_FILE_REDHAT=$ROUTE_DIR_REDHAT/route-$GATEWAY_IF
 
 function get_cn_data() {
 	echo "Downloading CN network data from CNNIC..."
-	RE_PATTERN="s/^.*searchtext=\([./0-9]*\).*$/\1/"
-	wget -O $IPV4_HTML $URL_CNNIC
-	grep "whois.pl?" $IPV4_HTML | sed -e "$RE_PATTERN" > $IPV4_DATA
-	chmod a+w $IPV4_HTML
+	wget -O $IPV4_DATA $URL_DANCEFIRE
 	chmod a+w $IPV4_DATA
 	echo "Done."
 }
